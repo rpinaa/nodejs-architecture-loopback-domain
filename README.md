@@ -1,4 +1,4 @@
-# nodejs-architecture-sails-domain
+# nodejs-architecture-loopback-domain
 
 nodejs-architecture-loopback-domain is a NodeJS backend. Its characteristics are as follow:
 
