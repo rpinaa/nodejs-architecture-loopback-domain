@@ -1,0 +1,40 @@
+{
+  "name": "Order",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true,
+    "mysql": {
+      "table": "ORDER"
+    }
+  },
+  "properties": {
+    "id": {
+      "id": true,
+      "type": "string",
+      "defaultFn": "guid",
+      "mysql": {
+        "columnName": "ID_ORDER"
+      }
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "NAME"
+      }
+    },
+    "point": {
+      "type": "GeoPoint",
+      "required": true,
+      "mysql": {
+        "columnName": "POINT"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {},
+  "hidden": ["FK_ID_ADDRESS"]
+}
