@@ -1,95 +1,44 @@
 {
   "name": "Address",
-  "plural": "addresses",
-  "base": "PersistedModel",
+  "base": "Model",
   "idInjection": false,
   "options": {
-    "validateUpsert": true,
-    "mysql": {
-      "table": "ADDRESS"
-    }
+    "validateUpsert": true
   },
   "properties": {
     "id": {
-      "id": true,
-      "type": "string",
-      "defaultFn": "guid",
-      "mysql": {
-        "columnName": "ID_ADDRESS"
-      }
+      "type": "string"
     },
     "intNumber": {
-      "type": "string",
-      "required": false,
-      "mysql": {
-        "columnName": "INT_NUMBER"
-      }
+      "type": "string"
     },
     "extNumber": {
-      "type": "string",
-      "required": true,
-      "mysql": {
-        "columnName": "EXT_NUMBER"
-      }
+      "type": "string"
     },
     "block": {
-      "type": "string",
-      "required": false,
-      "mysql": {
-        "columnName": "BLOCK"
-      }
+      "type": "string"
     },
     "number": {
-      "type": "string",
-      "required": false,
-      "mysql": {
-        "columnName": "NUMBER"
-      }
+      "type": "string"
     },
     "street": {
-      "type": "string",
-      "required": true,
-      "mysql": {
-        "columnName": "STREET"
-      }
+      "type": "string"
     },
     "colony": {
-      "type": "string",
-      "required": true,
-      "mysql": {
-        "columnName": "COLONY"
-      }
+      "type": "string"
     },
     "municipality": {
-      "type": "string",
-      "required": true,
-      "mysql": {
-        "columnName": "MUNICIPALITY"
-      }
+      "type": "string"
     },
     "state": {
-      "type": "string",
-      "required": true,
-      "mysql": {
-        "columnName": "STATE"
-      }
+      "type": "string"
     },
     "country": {
-      "type": "string",
-      "required": true,
-      "mysql": {
-        "columnName": "COUNTRY"
-      }
+      "type": "string"
     }
   },
   "validations": [],
-  "relations": {
-    "address": {
-      "type": "hasOne",
-      "model": "Order",
-      "foreignKey": "FK_ID_ADDRESS"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }
