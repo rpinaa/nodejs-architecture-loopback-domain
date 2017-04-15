@@ -1,10 +1,10 @@
 module.exports = function(app) {
 
-  app.dataSources.mysql.automigrate('Order', function(err) {
+  app.dataSources.mysql.automigrate('OrderEntity', function(err) {
     if (err) throw err;
   });
 
-  app.dataSources.mysql.automigrate('Address', function(err) {
+  app.dataSources.mysql.automigrate('AddressEntity', function(err) {
     if (err) throw err;
   });
 };

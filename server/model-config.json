@@ -35,12 +35,20 @@
     "dataSource": "db",
     "public": false
   },
-  "Order": {
+  "AddressEntity": {
     "dataSource": "mysql",
+    "public": false
+  },
+  "OrderEntity": {
+    "dataSource": "mysql",
+    "public": false
+  },
+  "Order": {
+    "dataSource": null,
     "public": true
   },
   "Address": {
-    "dataSource": "mysql",
+    "dataSource": null,
     "public": true
   }
 }
