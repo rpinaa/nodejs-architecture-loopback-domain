@@ -22,5 +22,8 @@
   "validations": [],
   "relations": {},
   "acls": [],
-  "methods": {}
+  "methods": {},
+  "hidden": [
+    "FK_ID_ADDRESS"
+  ]
 }
