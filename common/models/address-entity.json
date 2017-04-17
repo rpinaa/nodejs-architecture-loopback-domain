@@ -82,16 +82,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "address": {
-      "type": "hasOne",
-      "model": "Order",
-      "foreignKey": "FK_ID_ADDRESS",
-      "scope": {
-        "include": "linked"
-      }
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

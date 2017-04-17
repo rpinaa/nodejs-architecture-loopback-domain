@@ -8,9 +8,6 @@
       "table": "ORDER"
     }
   },
-  "hidden": [
-    "FK_ID_ADDRESS"
-  ],
   "properties": {
     "id": {
       "type": "string",
@@ -36,7 +33,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "address": {
+      "type": "belongsTo",
+      "model": "AddressEntity",
+      "foreignKey": "FK_ID_ADDRESS"
+    }
+  },
   "acls": [],
   "methods": {}
 }
