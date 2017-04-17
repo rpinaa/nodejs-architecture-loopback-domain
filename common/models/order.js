@@ -25,9 +25,25 @@ module.exports = function (Order) {
     });
   };
 
+  Order.findById = (idOrder, cb) => OrderEntity.findById(idOrder, {include: 'address'}, cb);
+
+  Order.find = (filter, cb) => OrderEntity.find(filter, cb);
+
   Order.remoteMethod('create', {
     accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
-    returns: {arg: 'order', type: 'Order', "root": true},
+    returns: {arg: 'order', type: 'Order', root: true},
     http: {path: '/', verb: 'post'}
+  });
+
+  Order.remoteMethod('findById', {
+    accepts: {arg: 'idOrder', type: 'string', required: true, http: {source: 'path'}},
+    returns: {arg: 'order', type: 'Order', root: true},
+    http: {path: '/:idOrder', verb: 'get'}
+  });
+
+  Order.remoteMethod('find', {
+    accepts: {arg: 'filter', type: 'string', required: true, http: {source: 'query'}},
+    returns: {arg: 'orders', type: 'array'},
+    http: {path: '/', verb: 'get'}
   });
 };
