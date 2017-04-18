@@ -3,17 +3,21 @@
   "base": "Model",
   "idInjection": false,
   "options": {
-    "validateUpsert": true
+    "validateUpsert": false
   },
   "properties": {
     "id": {
-      "type": "string"
+      "type": "string",
+      "defaultFn": "uuid"
     },
     "name": {
       "type": "string"
     },
-    "point": {
-      "type": "GeoPoint"
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
     },
     "address": {
       "type": "Address"

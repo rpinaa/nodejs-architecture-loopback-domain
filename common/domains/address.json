@@ -3,11 +3,13 @@
   "base": "Model",
   "idInjection": false,
   "options": {
-    "validateUpsert": true
+    "validateUpsert": false
   },
   "properties": {
     "id": {
-      "type": "string"
+      "type": "string",
+      "id": true,
+      "defaultFn": "uuid"
     },
     "intNumber": {
       "type": "string"
