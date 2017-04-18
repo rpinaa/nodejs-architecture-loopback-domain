@@ -4,13 +4,15 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
+      "../common/domains",
       "./models"
     ],
     "mixins": [
       "loopback/common/mixins",
       "loopback/server/mixins",
       "../common/mixins",
-      "./mixins"
+      "./mixins",
+      "../node_modules/loopback-validations-mixin"
     ]
   },
   "User": {
