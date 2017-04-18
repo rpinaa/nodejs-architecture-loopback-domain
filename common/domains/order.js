@@ -6,22 +6,18 @@ const OrderEntity = require('loopback').getModel('OrderEntity');
 module.exports = (Order) => {
 
   /*
-  * Business constraints
-  * */
+   * Business constraints
+   * */
 
-  Order.validatesLengthOf('name', {'min': 3, 'max': 15});
-  Order.validatesNumericalityOf('latitude', {'int': false});
-  Order.validatesNumericalityOf('longitude', {'int': false});
-  Order.validatesFormatOf('latitude', {'with': /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/});
-  Order.validatesFormatOf('longitude', {'with': /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/});
+  Order.validatesLengthOf('name', {min: 3, max: 15});
+  Order.validatesFormatOf('latitude', {with: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/});
+  Order.validatesFormatOf('longitude', {with: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/});
 
   /*
-  * Business methods
-  * */
+   * Business methods
+   * */
 
   Order.createOrder = (order, cb) => {
-    if (!order.isValid()) cb(order.errors);
-
     OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => {
       const addressEntity = new AddressEntity(order.address);
 
@@ -50,6 +46,18 @@ module.exports = (Order) => {
 
     OrderEntity.find(query, cb);
   };
+
+  /*
+   * Hooks API methods
+   * */
+
+  Order.beforeRemote('createOrder', (ctx, model, next) => {
+    const order = new Order(ctx.req.body);
+
+    if (order) {
+      order.isValid((valid) => valid ? next() : next(order.errors));
+    }
+  });
 
   /*
    * Remote API methods

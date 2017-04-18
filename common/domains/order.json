@@ -14,13 +14,16 @@
       "type": "string"
     },
     "latitude": {
-      "type": "number"
+      "type": "string"
     },
     "longitude": {
-      "type": "number"
+      "type": "string"
     },
     "address": {
-      "type": "Address"
+      "type": "Address",
+      "options": {
+        "validate": true
+      }
     }
   },
   "validations": [],
