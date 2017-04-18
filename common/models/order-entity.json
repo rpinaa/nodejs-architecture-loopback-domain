@@ -8,27 +8,33 @@
       "table": "ORDER"
     }
   },
+  "hidden": [
+    "FK_ID_ADDRESS"
+  ],
   "properties": {
     "id": {
       "type": "string",
       "id": true,
-      "defaultFn": "guid",
       "mysql": {
         "columnName": "ID_ORDER"
       }
     },
     "name": {
       "type": "string",
-      "required": true,
       "mysql": {
         "columnName": "NAME"
       }
     },
-    "point": {
-      "type": "GeoPoint",
-      "required": true,
+    "latitude": {
+      "type": "number",
       "mysql": {
-        "columnName": "POINT"
+        "columnName": "LATITUDE"
+      }
+    },
+    "longitude": {
+      "type": "number",
+      "mysql": {
+        "columnName": "LONGITUDE"
       }
     }
   },
@@ -41,8 +47,5 @@
     }
   },
   "acls": [],
-  "methods": {},
-  "hidden": [
-    "FK_ID_ADDRESS"
-  ]
+  "methods": {}
 }

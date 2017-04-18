@@ -3,7 +3,7 @@
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
-    "validateUpsert": true,
+    "validateUpsert": false,
     "mysql": {
       "table": "ADDRESS"
     }
@@ -12,70 +12,60 @@
     "id": {
       "type": "string",
       "id": true,
-      "defaultFn": "guid",
       "mysql": {
         "columnName": "ID_ADDRESS"
       }
     },
     "intNumber": {
       "type": "string",
-      "required": false,
       "mysql": {
         "columnName": "INT_NUMBER"
       }
     },
     "extNumber": {
       "type": "string",
-      "required": true,
       "mysql": {
         "columnName": "EXT_NUMBER"
       }
     },
     "block": {
       "type": "string",
-      "required": false,
       "mysql": {
         "columnName": "BLOCK"
       }
     },
     "number": {
       "type": "string",
-      "required": false,
       "mysql": {
         "columnName": "NUMBER"
       }
     },
     "street": {
       "type": "string",
-      "required": true,
       "mysql": {
         "columnName": "STREET"
       }
     },
     "colony": {
       "type": "string",
-      "required": true,
       "mysql": {
         "columnName": "COLONY"
       }
     },
     "municipality": {
       "type": "string",
-      "required": true,
       "mysql": {
         "columnName": "MUNICIPALITY"
       }
     },
     "state": {
       "type": "string",
-      "required": true,
       "mysql": {
         "columnName": "STATE"
       }
     },
     "country": {
       "type": "string",
-      "required": true,
       "mysql": {
         "columnName": "COUNTRY"
       }
