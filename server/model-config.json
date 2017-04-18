@@ -11,8 +11,7 @@
       "loopback/common/mixins",
       "loopback/server/mixins",
       "../common/mixins",
-      "./mixins",
-      "../node_modules/loopback-validations-mixin"
+      "./mixins"
     ]
   },
   "User": {
