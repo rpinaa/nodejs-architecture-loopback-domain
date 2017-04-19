@@ -8,9 +8,6 @@
       "table": "ORDER"
     }
   },
-  "hidden": [
-    "FK_ID_ADDRESS"
-  ],
   "properties": {
     "id": {
       "type": "string",
@@ -47,5 +44,6 @@
     }
   },
   "acls": [],
-  "methods": {}
+  "methods": {},
+  "hidden": ["FK_ID_ADDRESS"]
 }
