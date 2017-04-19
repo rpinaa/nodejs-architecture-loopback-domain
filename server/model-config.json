@@ -45,11 +45,11 @@
     "public": false
   },
   "Order": {
-    "dataSource": null,
+    "dataSource": "transient",
     "public": true
   },
   "Address": {
-    "dataSource": null,
+    "dataSource": "transient",
     "public": true
   }
 }
