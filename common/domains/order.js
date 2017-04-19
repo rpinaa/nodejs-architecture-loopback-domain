@@ -1,5 +1,7 @@
 'use strict';
 
+const async = require('async');
+
 const AddressEntity = require('loopback').getModel('AddressEntity');
 const OrderEntity = require('loopback').getModel('OrderEntity');
 
@@ -19,23 +21,39 @@ module.exports = (Order) => {
    * */
 
   Order.createOrder = (order, cb) => {
-    OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => {
-      const addressEntity = new AddressEntity(order.address);
 
-      AddressEntity.create(addressEntity, {transaction: tx}, (err, addressEntity) => {
-        const orderEntity = new OrderEntity(order);
+    async.waterfall([
+      (callback) => {
 
-        orderEntity.address(addressEntity);
+        OrderEntity.findById(order.id, {include: 'address'}, (err, orderEntity) => {
+          err ? callback(err) : callback(null, orderEntity);
+        });
+      },
+      (orderEntity, callback) => {
 
-        OrderEntity.create(orderEntity, {transaction: tx}, (err, orderEntity) => tx.commit((err) => {
-          const order = new Order(orderEntity);
+        if (orderEntity) {
+          return callback(null, orderEntity);
+        }
 
-          order.address = addressEntity;
+        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => {
+          const addressEntity = new AddressEntity(order.address);
 
-          cb(err, order);
-        }));
-      });
-    });
+          AddressEntity.create(addressEntity, {transaction: tx}, (err, addressEntity) => {
+            const orderEntity = new OrderEntity(order);
+
+            orderEntity.address(addressEntity);
+
+            OrderEntity.create(orderEntity, {transaction: tx}, (err, orderEntity) => tx.commit((err) => {
+              const order = new Order(orderEntity);
+
+              order.address = addressEntity;
+
+              cb(err, order);
+            }));
+          });
+        });
+      }
+    ], cb);
   };
 
   Order.findOrderById = (idOrder, cb) => OrderEntity.findById(idOrder, {include: 'address'}, cb);
@@ -73,6 +91,12 @@ module.exports = (Order) => {
     accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
     returns: {arg: 'order', type: 'Order', root: true},
     http: {path: '/', verb: 'post'}
+  });
+
+  Order.remoteMethod('createOrder', {
+    accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
+    returns: {arg: 'order', type: 'Order', root: true},
+    http: {path: '/', verb: 'put'}
   });
 
   Order.remoteMethod('findOrderById', {
