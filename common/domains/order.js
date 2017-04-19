@@ -25,32 +25,76 @@ module.exports = (Order) => {
     async.waterfall([
       (callback) => {
 
-        OrderEntity.findById(order.id, {include: 'address'}, (err, orderEntity) => {
-          err ? callback(err) : callback(null, orderEntity);
+        OrderEntity.exists(order.id, (err, exists) => {
+          err ? callback(err) : callback(null, exists);
         });
       },
-      (orderEntity, callback) => {
+      (exists, callback) => {
 
-        if (orderEntity) {
-          return callback(null, orderEntity);
+        if (exists) {
+          return callback('ERROR-4001');
+        }
+
+        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => {
+          const targetAddressEntity = new AddressEntity(order.address);
+
+          AddressEntity.create(targetAddressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
+            const targetOrderEntity = new OrderEntity(order);
+
+            targetOrderEntity.address(sourceAddressEntity);
+
+            OrderEntity.create(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
+              err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
+            });
+          });
+        });
+      },
+      (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
+        tx.commit((err) => {
+          const order = new Order(sourceOrderEntity);
+
+          order.address = sourceAddressEntity;
+
+          callback(err, order);
+        });
+      }
+    ], cb);
+  };
+
+  Order.updateOrder = (order, cb) => {
+
+    async.waterfall([
+      (callback) => {
+
+        OrderEntity.findById(order.id, {include: 'address'}, (err, sourceOrderEntity) => {
+          err ? callback(err) : callback(null, sourceOrderEntity);
+        });
+      },
+      (sourceOrderEntity, callback) => {
+
+        if (!sourceOrderEntity) {
+          return callback('ERROR-4002');
         }
 
         OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => {
           const addressEntity = new AddressEntity(order.address);
 
-          AddressEntity.create(addressEntity, {transaction: tx}, (err, addressEntity) => {
-            const orderEntity = new OrderEntity(order);
+          sourceOrderEntity.address.update(addressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
+            const targetOrderEntity = new OrderEntity(order);
 
-            orderEntity.address(addressEntity);
-
-            OrderEntity.create(orderEntity, {transaction: tx}, (err, orderEntity) => tx.commit((err) => {
-              const order = new Order(orderEntity);
-
-              order.address = addressEntity;
-
-              cb(err, order);
-            }));
+            sourceOrderEntity.updateAttributes(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
+              err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
+            });
           });
+        });
+      },
+      (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
+        tx.commit((err) => {
+          const order = new Order(sourceOrderEntity);
+
+          order.address = sourceAddressEntity;
+
+          callback(err, order);
         });
       }
     ], cb);
@@ -59,6 +103,7 @@ module.exports = (Order) => {
   Order.findOrderById = (idOrder, cb) => OrderEntity.findById(idOrder, {include: 'address'}, cb);
 
   Order.findOrders = (filters, cb) => {
+
     const query = filters && JSON.parse(filters);
 
     Object.assign({include: 'address', limit: 10}, query);
@@ -71,6 +116,7 @@ module.exports = (Order) => {
    * */
 
   Order.beforeRemote('createOrder', (ctx, model, next) => {
+
     const order = new Order(ctx.req.body);
 
     if (order) {
@@ -93,7 +139,7 @@ module.exports = (Order) => {
     http: {path: '/', verb: 'post'}
   });
 
-  Order.remoteMethod('createOrder', {
+  Order.remoteMethod('updateOrder', {
     accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
     returns: {arg: 'order', type: 'Order', root: true},
     http: {path: '/', verb: 'put'}
