@@ -50,6 +50,7 @@ module.exports = (Order) => {
         });
       },
       (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
+
         tx.commit((err) => {
           const order = new Order(sourceOrderEntity);
 
@@ -89,6 +90,7 @@ module.exports = (Order) => {
         });
       },
       (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
+
         tx.commit((err) => {
           const order = new Order(sourceOrderEntity);
 
