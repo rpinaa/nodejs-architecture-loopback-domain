@@ -40,7 +40,7 @@ module.exports = (Order) => {
   Order.findOrderById = (idOrder, cb) => OrderEntity.findById(idOrder, {include: 'address'}, cb);
 
   Order.findOrders = (filters, cb) => {
-    const query = filters || JSON.parse(filters);
+    const query = filters && JSON.parse(filters);
 
     Object.assign({include: 'address', limit: 10}, query);
 
