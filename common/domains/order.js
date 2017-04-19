@@ -63,6 +63,11 @@ module.exports = (Order) => {
    * Remote API methods
    * */
 
+  Order.disableRemoteMethodByName('prototype.__create__orderAddress');
+  Order.disableRemoteMethodByName('prototype.__update__orderAddress');
+  Order.disableRemoteMethodByName('prototype.__get__orderAddress');
+  Order.disableRemoteMethodByName('prototype.__destroy__orderAddress');
+
   Order.remoteMethod('createOrder', {
     accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
     returns: {arg: 'order', type: 'Order', root: true},

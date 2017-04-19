@@ -18,17 +18,22 @@
     },
     "longitude": {
       "type": "string"
-    },
-    "address": {
-      "type": "Address",
+    }
+  },
+  "validations": [],
+  "relations": {
+    "orderAddress": {
+      "type": "embedsOne",
+      "model": "Address",
+      "property": "address",
       "options": {
         "validate": true
       }
     }
   },
-  "validations": [],
-  "relations": {},
   "acls": [],
   "methods": {},
-  "hidden": ["FK_ID_ADDRESS"]
+  "hidden": [
+    "FK_ID_ADDRESS"
+  ]
 }
