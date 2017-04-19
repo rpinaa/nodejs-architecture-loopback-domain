@@ -12,6 +12,9 @@
     "id": {
       "type": "string",
       "id": true,
+      "index": {
+        "unique": true
+      },
       "mysql": {
         "columnName": "ID_ADDRESS"
       }

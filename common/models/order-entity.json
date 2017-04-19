@@ -12,6 +12,9 @@
     "id": {
       "type": "string",
       "id": true,
+      "index": {
+        "unique": true
+      },
       "mysql": {
         "columnName": "ID_ORDER"
       }
@@ -45,5 +48,7 @@
   },
   "acls": [],
   "methods": {},
-  "hidden": ["FK_ID_ADDRESS"]
+  "hidden": [
+    "FK_ID_ADDRESS"
+  ]
 }
