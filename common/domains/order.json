@@ -2,7 +2,6 @@
   "name": "Order",
   "base": "Model",
   "idInjection": false,
-  "forceId": true,
   "options": {
     "validateUpsert": false
   },
@@ -34,7 +33,5 @@
   },
   "acls": [],
   "methods": {},
-  "hidden": [
-    "FK_ID_ADDRESS"
-  ]
+  "hidden": ["FK_ID_ADDRESS"]
 }
