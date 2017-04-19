@@ -2,6 +2,7 @@
   "name": "Order",
   "base": "Model",
   "idInjection": false,
+  "forceId": true,
   "options": {
     "validateUpsert": false
   },

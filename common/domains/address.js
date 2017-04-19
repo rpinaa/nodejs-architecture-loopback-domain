@@ -6,6 +6,7 @@ module.exports = function (Address) {
    * Business constraints
    * */
 
+  Address.validatesFormatOf('id', {with: /^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/});
   Address.validatesLengthOf('intNumber', {'min': 1, 'max': 5});
   Address.validatesLengthOf('extNumber', {'min': 1, 'max': 5});
   Address.validatesLengthOf('block', {'min': 1, 'max': 5});
