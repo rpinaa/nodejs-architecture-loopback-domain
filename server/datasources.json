@@ -3,6 +3,10 @@
     "name": "db",
     "connector": "memory"
   },
+  "transient": {
+    "name": "transient",
+    "connector": "transient"
+  },
   "mysql": {
     "host": "localhost",
     "port": 3306,
