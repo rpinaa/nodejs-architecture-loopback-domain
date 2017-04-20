@@ -54,7 +54,7 @@ module.exports = (Order) => {
         tx.commit((err) => {
           const order = new Order(sourceOrderEntity);
 
-          order.address = sourceAddressEntity;
+          order.address = new Order.app.models.Address(sourceAddressEntity);
 
           callback(err, order);
         });
@@ -94,7 +94,7 @@ module.exports = (Order) => {
         tx.commit((err) => {
           const order = new Order(sourceOrderEntity);
 
-          order.address = sourceAddressEntity;
+          order.address = new Order.app.models.Address(sourceAddressEntity);
 
           callback(err, order);
         });

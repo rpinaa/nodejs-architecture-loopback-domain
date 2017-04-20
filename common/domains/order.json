@@ -18,6 +18,33 @@
     },
     "longitude": {
       "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "timeZone": {
+      "type": "date"
+    },
+    "scheduled": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "string"
+    },
+    "total": {
+      "type": "number"
+    },
+    "createdAt": {
+      "type": "date"
+    },
+    "registeredAt": {
+      "type": "date"
+    },
+    "scheduledAt": {
+      "type": "date"
+    },
+    "finishedAt": {
+      "type": "date"
     }
   },
   "validations": [],
@@ -33,5 +60,7 @@
   },
   "acls": [],
   "methods": {},
-  "hidden": ["FK_ID_ADDRESS"]
+  "hidden": [
+    "FK_ID_ADDRESS"
+  ]
 }
