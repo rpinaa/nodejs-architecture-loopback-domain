@@ -40,7 +40,7 @@ where a client can request a order of several dishes which are created by a
 chef and delivered by a driver. The follow relational diagram, shows us a deep
 look of the business.
 
-![alt tag](https://github.com/rpinaa/nodejs-architecture-loopback-domain/master/er-scheme.png)
+![alt tag](https://raw.githubusercontent.com/rpinaa/nodejs-architecture-loopback-domain/master/er-scheme.png)
 
 License
 ----
