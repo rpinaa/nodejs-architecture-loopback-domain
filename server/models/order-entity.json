@@ -1,0 +1,115 @@
+{
+  "name": "OrderEntity",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false,
+    "mysql": {
+      "table": "ORDER"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "index": {
+        "unique": true
+      },
+      "mysql": {
+        "columnName": "ID_ORDER"
+      }
+    },
+    "name": {
+      "type": "string",
+      "mysql": {
+        "columnName": "NAME"
+      }
+    },
+    "latitude": {
+      "type": "number",
+      "mysql": {
+        "columnName": "LATITUDE"
+      }
+    },
+    "longitude": {
+      "type": "number",
+      "mysql": {
+        "columnName": "LONGITUDE"
+      }
+    },
+    "status": {
+      "type": "string",
+      "mysql": {
+        "columnName": "STATUS"
+      }
+    },
+    "timeZone": {
+      "type": "date",
+      "mysql": {
+        "columnName": "TIMEZONE"
+      }
+    },
+    "scheduled": {
+      "type": "string",
+      "mysql": {
+        "columnName": "SCHEDULED"
+      }
+    },
+    "comments": {
+      "type": "string",
+      "mysql": {
+        "columnName": "COMMENTS"
+      }
+    },
+    "total": {
+      "type": "number",
+      "mysql": {
+        "columnName": "TOTAL"
+      }
+    },
+    "createdAt": {
+      "type": "date",
+      "defaultFn": "now",
+      "mysql": {
+        "columnName": "CREATED_DATE"
+      }
+    },
+    "registeredAt": {
+      "type": "date",
+      "mysql": {
+        "columnName": "REGISTERED_DATE"
+      }
+    },
+    "scheduledAt": {
+      "type": "date",
+      "mysql": {
+        "columnName": "SCHEDULED_DATE"
+      }
+    },
+    "finishedAt": {
+      "type": "date",
+      "mysql": {
+        "columnName": "FINISHED_DATE"
+      }
+    },
+    "deleted": {
+      "type": "Boolean",
+      "mysql": {
+        "columnName": "DELETED"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "address": {
+      "type": "belongsTo",
+      "model": "AddressEntity",
+      "foreignKey": "FK_ID_ADDRESS"
+    }
+  },
+  "acls": [],
+  "methods": {},
+  "hidden": [
+    "FK_ID_ADDRESS"
+  ]
+}

@@ -72,6 +72,26 @@
       "mysql": {
         "columnName": "COUNTRY"
       }
+    },
+    "createdAt": {
+      "type": "date",
+      "defaultFn": "now",
+      "mysql": {
+        "columnName": "CREATED_DATE"
+      }
+    },
+    "updatedAt": {
+      "type": "date",
+      "defaultFn": "now",
+      "mysql": {
+        "columnName": "UPDATED_DATE"
+      }
+    },
+    "deleted": {
+      "type": "Boolean",
+      "mysql": {
+        "columnName": "DELETED"
+      }
     }
   },
   "validations": [],
