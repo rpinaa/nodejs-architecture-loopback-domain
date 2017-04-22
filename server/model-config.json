@@ -4,7 +4,6 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
-      "../common/domains",
       "./models"
     ],
     "mixins": [
@@ -51,5 +50,9 @@
   "Address": {
     "dataSource": "transient",
     "public": true
+  },
+  "OrderMapper": {
+    "dataSource": null,
+    "public": false
   }
 }
