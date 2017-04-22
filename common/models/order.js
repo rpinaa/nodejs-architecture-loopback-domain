@@ -37,19 +37,23 @@ module.exports = (Order) => {
       },
       (callback) => {
 
-        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => err ? callback(err) : callback(null, tx));
+        OrderEntity.beginTransaction('READ COMMITTED', callback);
       },
       (tx, callback) => {
+
         const targetAddressEntity = new AddressEntity(sourceOrder.address);
 
         AddressEntity.create(targetAddressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
-          const targetOrderEntity = new OrderEntity(sourceOrder);
+          err ? callback(err) : callback(null, sourceAddressEntity, tx);
+        });
+      },
+      (sourceAddressEntity, tx, callback) => {
+        const targetOrderEntity = new OrderEntity(sourceOrder);
 
-          targetOrderEntity.address(sourceAddressEntity);
+        targetOrderEntity.address(sourceAddressEntity);
 
-          OrderEntity.create(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
-            err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
-          });
+        OrderEntity.create(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
+          err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
         });
       },
       (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
@@ -89,11 +93,15 @@ module.exports = (Order) => {
         const addressEntity = new AddressEntity(sourceOrder.address);
 
         sourceOrderEntity.address.update(addressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
-          const targetOrderEntity = new OrderEntity(order);
+          err ? callback(err) : callback(null, sourceAddressEntity, sourceOrderEntity, tx);
+        });
+      },
+      (sourceAddressEntity, sourceOrderEntity, tx, callback) => {
 
-          sourceOrderEntity.updateAttributes(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
-            err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
-          });
+        const targetOrderEntity = new OrderEntity(sourceOrder);
+
+        sourceOrderEntity.updateAttributes(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
+          err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
         });
       },
       (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
