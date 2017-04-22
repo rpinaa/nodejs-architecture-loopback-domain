@@ -21,7 +21,8 @@
     "loopback-component-explorer": "^4.0.0",
     "loopback-connector-mysql": "^2.4.1",
     "serve-favicon": "^2.0.1",
-    "strong-error-handler": "^2.0.0"
+    "strong-error-handler": "^2.0.0",
+    "two-way-object-mapper": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
