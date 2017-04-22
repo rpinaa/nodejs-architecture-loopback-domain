@@ -108,8 +108,5 @@
     }
   },
   "acls": [],
-  "methods": {},
-  "hidden": [
-    "FK_ID_ADDRESS"
-  ]
+  "methods": {}
 }
