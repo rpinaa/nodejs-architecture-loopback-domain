@@ -22,30 +22,33 @@ module.exports = (Order) => {
 
   Order.createOrder = (order, cb) => {
 
+    const sourceOrder = new Order(Order.app.models.OrderMapper.build.map(order));
+
     async.waterfall([
       (callback) => {
 
-        OrderEntity.exists(order.id, (err, exists) => {
-          err ? callback(err) : callback(null, exists);
+        sourceOrder.isValid((valid) => valid ? callback() : callback(sourceOrder.errors));
+      },
+      (callback) => {
+
+        OrderEntity.exists(sourceOrder.id, (err, exists) => {
+          err ? callback(err) : exists ? callback('ERROR-4001') : callback();
         });
       },
-      (exists, callback) => {
+      (callback) => {
 
-        if (exists) {
-          return callback('ERROR-4001');
-        }
+        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => err ? callback(err) : callback(null, tx));
+      },
+      (tx, callback) => {
+        const targetAddressEntity = new AddressEntity(sourceOrder.address);
 
-        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => {
-          const targetAddressEntity = new AddressEntity(order.address);
+        AddressEntity.create(targetAddressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
+          const targetOrderEntity = new OrderEntity(sourceOrder);
 
-          AddressEntity.create(targetAddressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
-            const targetOrderEntity = new OrderEntity(order);
+          targetOrderEntity.address(sourceAddressEntity);
 
-            targetOrderEntity.address(sourceAddressEntity);
-
-            OrderEntity.create(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
-              err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
-            });
+          OrderEntity.create(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
+            err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
           });
         });
       },
@@ -54,9 +57,9 @@ module.exports = (Order) => {
         tx.commit((err) => {
           const order = new Order(sourceOrderEntity);
 
-          order.address = new Order.app.models.Address(sourceAddressEntity);
+          order.address = sourceAddressEntity;
 
-          callback(err, order);
+          callback(err, Order.app.models.OrderMapper.build.reverseMap(order));
         });
       }
     ], cb);
@@ -64,28 +67,32 @@ module.exports = (Order) => {
 
   Order.updateOrder = (order, cb) => {
 
+    const sourceOrder = new Order(Order.app.models.OrderMapper.build.map(order));
+
     async.waterfall([
       (callback) => {
 
-        OrderEntity.findById(order.id, {include: 'address'}, (err, sourceOrderEntity) => {
-          err ? callback(err) : callback(null, sourceOrderEntity);
+        sourceOrder.isValid((valid) => valid ? callback() : callback(sourceOrder.errors));
+      },
+      (callback) => {
+
+        OrderEntity.findById(sourceOrder.id, {include: 'address'}, (err, sourceOrderEntity) => {
+          err ? callback(err) : sourceOrderEntity ? callback(null, sourceOrderEntity) : callback('ERROR-4002');
         });
       },
       (sourceOrderEntity, callback) => {
 
-        if (!sourceOrderEntity) {
-          return callback('ERROR-4002');
-        }
+        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => err ? callback(err) : callback(null, sourceOrderEntity, tx));
+      },
+      (sourceOrderEntity, tx, callback) => {
 
-        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => {
-          const addressEntity = new AddressEntity(order.address);
+        const addressEntity = new AddressEntity(sourceOrder.address);
 
-          sourceOrderEntity.address.update(addressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
-            const targetOrderEntity = new OrderEntity(order);
+        sourceOrderEntity.address.update(addressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
+          const targetOrderEntity = new OrderEntity(order);
 
-            sourceOrderEntity.updateAttributes(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
-              err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
-            });
+          sourceOrderEntity.updateAttributes(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
+            err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
           });
         });
       },
@@ -94,9 +101,9 @@ module.exports = (Order) => {
         tx.commit((err) => {
           const order = new Order(sourceOrderEntity);
 
-          order.address = new Order.app.models.Address(sourceAddressEntity);
+          order.address = sourceAddressEntity;
 
-          callback(err, order);
+          callback(err, Order.app.models.OrderMapper.build.reverseMap(order));
         });
       }
     ], cb);
@@ -114,26 +121,8 @@ module.exports = (Order) => {
   };
 
   /*
-   * Hooks API methods
-   * */
-
-  Order.beforeRemote('createOrder', (ctx, model, next) => {
-
-    const order = new Order(ctx.req.body);
-
-    if (order) {
-      order.isValid((valid) => valid ? next() : next(order.errors));
-    }
-  });
-
-  /*
    * Remote API methods
    * */
-
-  Order.disableRemoteMethodByName('prototype.__create__orderAddress');
-  Order.disableRemoteMethodByName('prototype.__update__orderAddress');
-  Order.disableRemoteMethodByName('prototype.__get__orderAddress');
-  Order.disableRemoteMethodByName('prototype.__destroy__orderAddress');
 
   Order.remoteMethod('createOrder', {
     accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
@@ -158,4 +147,9 @@ module.exports = (Order) => {
     returns: {arg: 'orders', type: 'array'},
     http: {path: '/', verb: 'get'}
   });
+
+  Order.disableRemoteMethodByName('prototype.__create__orderAddress');
+  Order.disableRemoteMethodByName('prototype.__update__orderAddress');
+  Order.disableRemoteMethodByName('prototype.__get__orderAddress');
+  Order.disableRemoteMethodByName('prototype.__destroy__orderAddress');
 };
