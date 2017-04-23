@@ -9,9 +9,9 @@ nodejs-architecture-loopback-domain is a NodeJS backend. Its characteristics are
 
 nodejs-architecture-loopback-domain uses three technologies:
 
-* [JavaScript 6] - Supported by ECMAScript 5/6 as native language.
-* [NodeJS 7] - Based on NodeJS 7.X architecture and environment.
-* [Loopback 3] - Supported by Loopback 3.X Framework to complete all business rules.
+* Supported by ECMAScript 5/6 as native language.
+* Based on NodeJS 7.X architecture and environment.
+* Supported by Loopback 3.X Framework to complete all business rules.
 
 ### Installation
 
@@ -27,10 +27,28 @@ $ sudo npm install -d
 
 ### Environments
 
+For local environments:
+
+```sh
+$ NODE_ENV=local node .
+```
+
 For development environments:
 
 ```sh
-$ node .
+$ NODE_ENV=development node .
+```
+
+For staging environments:
+
+```sh
+$ NODE_ENV=staging node .
+```
+
+For production environments:
+
+```sh
+$ NODE_ENV=production node .
 ```
 
 ### Business
