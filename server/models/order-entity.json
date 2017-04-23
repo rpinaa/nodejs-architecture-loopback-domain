@@ -4,7 +4,7 @@
   "idInjection": false,
   "options": {
     "validateUpsert": false,
-    "db": {
+    "mysql": {
       "table": "ORDER"
     }
   },
@@ -15,86 +15,86 @@
       "index": {
         "unique": true
       },
-      "db": {
+      "mysql": {
         "columnName": "ID_ORDER"
       }
     },
     "name": {
       "type": "string",
-      "db": {
+      "mysql": {
         "columnName": "NAME"
       }
     },
     "latitude": {
       "type": "number",
-      "db": {
+      "mysql": {
         "columnName": "LATITUDE"
       }
     },
     "longitude": {
       "type": "number",
-      "db": {
+      "mysql": {
         "columnName": "LONGITUDE"
       }
     },
     "status": {
       "type": "string",
-      "db": {
+      "mysql": {
         "columnName": "STATUS"
       }
     },
     "timeZone": {
       "type": "date",
-      "db": {
+      "mysql": {
         "columnName": "TIMEZONE"
       }
     },
     "scheduled": {
       "type": "string",
-      "db": {
+      "mysql": {
         "columnName": "SCHEDULED"
       }
     },
     "comments": {
       "type": "string",
-      "db": {
+      "mysql": {
         "columnName": "COMMENTS"
       }
     },
     "total": {
       "type": "number",
-      "db": {
+      "mysql": {
         "columnName": "TOTAL"
       }
     },
     "createdAt": {
       "type": "date",
       "defaultFn": "now",
-      "db": {
+      "mysql": {
         "columnName": "CREATED_DATE"
       }
     },
     "registeredAt": {
       "type": "date",
-      "db": {
+      "mysql": {
         "columnName": "REGISTERED_DATE"
       }
     },
     "scheduledAt": {
       "type": "date",
-      "db": {
+      "mysql": {
         "columnName": "SCHEDULED_DATE"
       }
     },
     "finishedAt": {
       "type": "date",
-      "db": {
+      "mysql": {
         "columnName": "FINISHED_DATE"
       }
     },
     "deleted": {
       "type": "Boolean",
-      "db": {
+      "mysql": {
         "columnName": "DELETED"
       }
     }
