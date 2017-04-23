@@ -4,7 +4,7 @@
   "idInjection": false,
   "options": {
     "validateUpsert": false,
-    "mysql": {
+    "db": {
       "table": "ADDRESS"
     }
   },
@@ -15,81 +15,81 @@
       "index": {
         "unique": true
       },
-      "mysql": {
+      "db": {
         "columnName": "ID_ADDRESS"
       }
     },
     "intNumber": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "INT_NUMBER"
       }
     },
     "extNumber": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "EXT_NUMBER"
       }
     },
     "block": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "BLOCK"
       }
     },
     "number": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "NUMBER"
       }
     },
     "street": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "STREET"
       }
     },
     "colony": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "COLONY"
       }
     },
     "municipality": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "MUNICIPALITY"
       }
     },
     "state": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "STATE"
       }
     },
     "country": {
       "type": "string",
-      "mysql": {
+      "db": {
         "columnName": "COUNTRY"
       }
     },
     "createdAt": {
       "type": "date",
       "defaultFn": "now",
-      "mysql": {
+      "db": {
         "columnName": "CREATED_DATE"
       }
     },
     "updatedAt": {
       "type": "date",
       "defaultFn": "now",
-      "mysql": {
+      "db": {
         "columnName": "UPDATED_DATE"
       }
     },
     "deleted": {
       "type": "Boolean",
-      "mysql": {
+      "db": {
         "columnName": "DELETED"
       }
     }
