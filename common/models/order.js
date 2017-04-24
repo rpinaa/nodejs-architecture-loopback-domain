@@ -16,7 +16,6 @@ module.exports = (Order) => {
   Order.validatesFormatOf('id', {with: /^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/});
   Order.validatesFormatOf('latitude', {with: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/});
   Order.validatesFormatOf('longitude', {with: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/});
-  Order.validatesInclusionOf('status', {in: ['created', 'registered', 'finished', 'canceled']});
   Order.validatesPresenceOf('timeZone', 'scheduled', 'comments', 'total', 'createdAt', 'registeredAt', 'scheduledAt', 'finishedAt');
 
   /*
@@ -25,7 +24,7 @@ module.exports = (Order) => {
 
   Order.createOrder = (order, cb) => {
 
-    let sourceOrder = new Order(Order.app.models.OrderMapper.map(order));
+    const sourceOrder = new Order(Order.app.models.OrderMapper.map(order));
 
     async.waterfall([
       (callback) => {
@@ -63,6 +62,7 @@ module.exports = (Order) => {
       (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
 
         tx.commit((err) => {
+
           const order = new Order(sourceOrderEntity);
 
           order.address = sourceAddressEntity;
@@ -111,6 +111,7 @@ module.exports = (Order) => {
       (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
 
         tx.commit((err) => {
+
           const order = new Order(sourceOrderEntity);
 
           order.address = sourceAddressEntity;
@@ -122,6 +123,7 @@ module.exports = (Order) => {
   };
 
   Order.findOrderById = (idOrder, cb) => {
+
     async.waterfall([
       (callback) => {
 
@@ -138,10 +140,10 @@ module.exports = (Order) => {
 
   Order.findOrders = (filters, cb) => {
 
-    const query = filters && JSON.parse(filters) || {};
-
     async.waterfall([
       (callback) => {
+
+        const query = filters && JSON.parse(filters) || {};
 
         Object.assign(query, {include: 'address', limit: 10});
         OrderEntity.find(query, callback);
