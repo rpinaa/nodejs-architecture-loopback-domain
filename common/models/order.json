@@ -59,5 +59,8 @@
     }
   },
   "acls": [],
-  "methods": {}
+  "methods": {},
+  "remoting": {
+    "normalizeHttpPath": true
+  }
 }
