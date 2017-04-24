@@ -179,7 +179,7 @@ module.exports = (Order) => {
 
   Order.remoteMethod('findOrders', {
     accepts: {arg: 'filter', type: 'string', required: false, http: {source: 'query'}},
-    returns: {arg: 'orders', type: 'array'},
+    returns: {arg: 'orders', type: ['Order'], root: true},
     http: {path: '/', verb: 'get'}
   });
 
