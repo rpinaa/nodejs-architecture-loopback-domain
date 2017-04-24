@@ -12,9 +12,12 @@ module.exports = (Order) => {
    * */
 
   Order.validatesLengthOf('name', {min: 3, max: 15});
+  Order.validatesLengthOf('name', {min: 3, max: 15});
   Order.validatesFormatOf('id', {with: /^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/});
   Order.validatesFormatOf('latitude', {with: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/});
   Order.validatesFormatOf('longitude', {with: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/});
+  Order.validatesInclusionOf('status', {in: ['created', 'registered', 'finished', 'canceled']});
+  Order.validatesPresenceOf('timeZone', 'scheduled', 'comments', 'total', 'createdAt', 'registeredAt', 'scheduledAt', 'finishedAt');
 
   /*
    * Business methods
@@ -22,7 +25,7 @@ module.exports = (Order) => {
 
   Order.createOrder = (order, cb) => {
 
-    const sourceOrder = new Order(Order.app.models.OrderMapper.build.map(order));
+    let sourceOrder = new Order(Order.app.models.OrderMapper.map(order));
 
     async.waterfall([
       (callback) => {
@@ -48,6 +51,7 @@ module.exports = (Order) => {
         });
       },
       (sourceAddressEntity, tx, callback) => {
+
         const targetOrderEntity = new OrderEntity(sourceOrder);
 
         targetOrderEntity.address(sourceAddressEntity);
@@ -63,7 +67,7 @@ module.exports = (Order) => {
 
           order.address = sourceAddressEntity;
 
-          callback(err, Order.app.models.OrderMapper.build.reverseMap(order));
+          callback(err, Order.app.models.OrderMapper.reverseMap(order));
         });
       }
     ], cb);
@@ -71,7 +75,7 @@ module.exports = (Order) => {
 
   Order.updateOrder = (order, cb) => {
 
-    const sourceOrder = new Order(Order.app.models.OrderMapper.build.map(order));
+    const sourceOrder = new Order(Order.app.models.OrderMapper.map(order));
 
     async.waterfall([
       (callback) => {
@@ -111,21 +115,42 @@ module.exports = (Order) => {
 
           order.address = sourceAddressEntity;
 
-          callback(err, Order.app.models.OrderMapper.build.reverseMap(order));
+          callback(err, Order.app.models.OrderMapper.reverseMap(order));
         });
       }
     ], cb);
   };
 
-  Order.findOrderById = (idOrder, cb) => OrderEntity.findById(idOrder, {include: 'address'}, cb);
+  Order.findOrderById = (idOrder, cb) => {
+    async.waterfall([
+      (callback) => {
+
+        OrderEntity.findById(idOrder, {include: 'address'}, callback);
+      },
+      (sourceOrderEntity, callback) => {
+
+        const order = new Order(sourceOrderEntity);
+
+        callback(null, Order.app.models.OrderMapper.reverseMap(order));
+      }
+    ], cb);
+  };
 
   Order.findOrders = (filters, cb) => {
 
-    const query = filters && JSON.parse(filters);
+    const query = filters && JSON.parse(filters) || {};
 
-    Object.assign({include: 'address', limit: 10}, query);
+    async.waterfall([
+      (callback) => {
 
-    OrderEntity.find(query, cb);
+        Object.assign(query, {include: 'address', limit: 10});
+        OrderEntity.find(query, callback);
+      },
+      (sourceOrderEntities, callback) => {
+
+        callback(null, Order.app.models.OrderMapper.reverseMapList(sourceOrderEntities));
+      }
+    ], cb);
   };
 
   /*
