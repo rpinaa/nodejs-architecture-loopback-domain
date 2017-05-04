@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (Address) {
+module.exports = Address => {
 
   /*
    * Business constraints
