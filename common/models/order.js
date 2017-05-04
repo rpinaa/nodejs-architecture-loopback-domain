@@ -5,7 +5,7 @@ const async = require('async');
 const AddressEntity = require('loopback').getModel('AddressEntity');
 const OrderEntity = require('loopback').getModel('OrderEntity');
 
-module.exports = (Order) => {
+module.exports = Order => {
 
   /*
    * Business constraints
@@ -127,7 +127,7 @@ module.exports = (Order) => {
     async.waterfall([
       (callback) => {
 
-        OrderEntity.findById(idOrder, {include: 'address'}, callback);
+        OrderEntity.findById(idOrder, {}, callback);
       },
       (sourceOrderEntity, callback) => {
 
@@ -145,12 +145,14 @@ module.exports = (Order) => {
 
         const query = filters && JSON.parse(filters) || {};
 
-        Object.assign(query, {include: 'address', limit: 10});
+        Object.assign(query, {limit: 10});
         OrderEntity.find(query, callback);
       },
       (sourceOrderEntities, callback) => {
 
-        callback(null, Order.app.models.OrderMapper.reverseMapList(sourceOrderEntities));
+        const orders = sourceOrderEntities.map(orderEntity => new Order(orderEntity));
+
+        callback(null, Order.app.models.OrderMapper.reverseMapList(orders));
       }
     ], cb);
   };
