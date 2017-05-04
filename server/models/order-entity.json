@@ -108,5 +108,8 @@
     }
   },
   "acls": [],
-  "methods": {}
+  "methods": {},
+  "scope": {
+    "include": "address"
+  }
 }
