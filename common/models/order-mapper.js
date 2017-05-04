@@ -1,6 +1,6 @@
 const ObjectMapper = require('two-way-object-mapper');
 
-module.exports = (OrderMapper) => {
+module.exports = OrderMapper => {
 
   const mapper = new ObjectMapper()
     .addPropertyMapping({from: 'id', to: 'id'})
@@ -13,9 +13,9 @@ module.exports = (OrderMapper) => {
     .addPropertyMapping({from: 'comments', to: 'comments'})
     .addPropertyMapping({from: 'total', to: 'total'})
     .addPropertyMapping({from: 'createdAt', to: 'createdAt'})
-    .addPropertyMapping({from: 'registeredAt', to: 'registeredAt', default: null})
-    .addPropertyMapping({from: 'scheduledAt', to: 'scheduledAt', default: null})
-    .addPropertyMapping({from: 'finishedAt', to: 'finishedAt', default: null})
+    .addPropertyMapping({from: 'registeredAt', to: 'registeredAt'})
+    .addPropertyMapping({from: 'scheduledAt', to: 'scheduledAt'})
+    .addPropertyMapping({from: 'finishedAt', to: 'finishedAt'})
     .addPropertyMapping({from: 'address.id', to: 'address.id'})
     .addPropertyMapping({from: 'address.intNumber', to: 'address.intNumber'})
     .addPropertyMapping({from: 'address.extNumber', to: 'address.extNumber'})
@@ -27,8 +27,11 @@ module.exports = (OrderMapper) => {
     .addPropertyMapping({from: 'address.state', to: 'address.state'})
     .addPropertyMapping({from: 'address.country', to: 'address.country'});
 
-  OrderMapper.map = (object) => mapper.map(object);
-  OrderMapper.mapList = (list) => list.map((object) => mapper.map(object));
-  OrderMapper.reverseMap = (object) => mapper.reverseMap(object);
-  OrderMapper.reverseMapList = (list) => list.map((object) => mapper.reverseMap(object));
+  OrderMapper.map = order => mapper.map(order);
+
+  OrderMapper.mapList = orders => orders.map(order => mapper.map(order));
+
+  OrderMapper.reverseMap = order => mapper.reverseMap(order);
+
+  OrderMapper.reverseMapList = orders => orders.map(order => mapper.reverseMap(order));
 };
