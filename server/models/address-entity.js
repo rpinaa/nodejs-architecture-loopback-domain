@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function(AddressEntity) {
+module.exports = AddressEntity => {
 
 };
