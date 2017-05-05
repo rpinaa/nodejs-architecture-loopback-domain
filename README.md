@@ -31,25 +31,25 @@ $ cd nodejs-architecture-loopback-domain
 $ sudo npm install -d
 ```
 
-For local environments:
+For local environment:
 
 ```sh
 $ NODE_ENV=local node .
 ```
 
-For development environments:
+For development environment:
 
 ```sh
 $ NODE_ENV=development node .
 ```
 
-For staging environments:
+For staging environment:
 
 ```sh
 $ NODE_ENV=staging node .
 ```
 
-For production environments:
+For production environment:
 
 ```sh
 $ NODE_ENV=production node .
