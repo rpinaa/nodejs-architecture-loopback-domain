@@ -1,21 +1,27 @@
 # nodejs-architecture-loopback-domain
+NodeJS 7 non-blocking I/O Architecture, using Loopback and Domain layer
 
-nodejs-architecture-loopback-domain is a NodeJS backend. Its characteristics are as follow:
+## Requirements
 
-  - NodeJS REST/RESTFul API Architecture
-  - NodeJS SOAP API Architecture
+- NodeJS 7.5+
 
-### Architecture Stack
+## Stack
 
-nodejs-architecture-loopback-domain uses three technologies:
+- JavaScript 6
+- Loopback 3.x
+- Async 2.x
 
-* Supported by ECMAScript 5/6 as native language.
-* Based on NodeJS 7.X architecture and environment.
-* Supported by Loopback 3.X Framework to complete all business rules.
+## Contribution guide
 
-### Installation
+### Remotes
 
-nodejs-architecture-loopback-domain requires [Node.js](https://nodejs.org/) v7.5+ to run.
+The **remotes** follow the convention:
+
+- _**origin**_: fork in the account of the developer
+
+- _**upstream**_: main repository
+
+### Building
 
 Install the dependencies before start:
 
@@ -24,8 +30,6 @@ $ sudo npm install -g strongloop
 $ cd nodejs-architecture-loopback-domain
 $ sudo npm install -d
 ```
-
-### Environments
 
 For local environments:
 
@@ -60,8 +64,7 @@ look of the business.
 
 ![alt tag](https://raw.githubusercontent.com/rpinaa/nodejs-architecture-loopback-domain/master/er-scheme.png)
 
-License
-----
+## License
 
 MIT
 
