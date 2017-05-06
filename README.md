@@ -58,18 +58,18 @@ $ NODE_ENV=production node .
 ### Project structure
 
 ```
-common/                     --> store all components which are related with the business rules and the client integration
+common/                     --> store components which are related with the business and domain rules
   models/                   --> store domain layer, mapper layer or service layer
     order.js/               --> order service
     order.json/             --> order domain
     order-mapper.js/        --> order-mapper service
     order-mapper.json/      --> order-mapper mapper
-server/                     --> store all components which are related with the data sources
+server/                     --> store components which are related with the data sources
   boot/                     --> store all boot components which are needed by the bootstrapping of the application
     authentication.js       --> default script to enable/disable the auth native service
     root.js                 --> default script to define the main front controller
-    model.js                --> custom sccript to persist entity models, acl model, access token model or another kind of model
-  models/                   --> store all components which are related with data bases, SOA conexions, rest/soap integrations, etc.
+    model.js                --> custom sccript to persist entity models, acl, access token or another model
+  models/                   --> store components which are related with data bases, rest/soap conexions, etc
     address-entity.js       --> address-entity entity
     address-entity.json     --> address-entity scheme
     order-entity.js         --> order-entity entity
