@@ -74,6 +74,11 @@ server/                     --> store components which are related with the data
     address-entity.json     --> address-entity scheme
     order-entity.js         --> order-entity entity
     order-entity.json       --> order-entity scheme
+  component-config.json     --> default configuration file for loopback components
+  config.json               --> default configuration file for loopback remoting API
+  datasources.json          --> default configuration file for loopback data sources
+  middleware.json           --> default configuration file for loopback middleware flow
+  model-config.json         --> default configuration file for all loopback models, include common and server
 ```
 
 ## License
