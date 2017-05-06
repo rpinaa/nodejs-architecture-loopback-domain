@@ -55,14 +55,26 @@ For production environment:
 $ NODE_ENV=production node .
 ```
 
-### Business
+### Project structure
 
-This repository lets us resolve the business rules of a delivery food system
-where a client can request a order of several dishes which are created by a
-chef and delivered by a driver. The follow relational diagram, shows us a deep
-look of the business.
-
-![alt tag](https://raw.githubusercontent.com/rpinaa/nodejs-architecture-loopback-domain/master/er-scheme.png)
+```
+common/                     --> store all components which are related with the business rules and the client integration
+  models/                   --> store domain layer, mapper layer or service layer
+    order.js/               --> order service
+    order.json/             --> order domain
+    order-mapper.js/        --> order-mapper service
+    order-mapper.json/      --> order-mapper mapper
+server/                     --> store all components which are related with the data sources
+  boot/                     --> store all boot components which are needed by the bootstrapping of the application
+    authentication.js       --> default script to enable/disable the auth native service
+    root.js                 --> default script to define the main front controller
+    model.js                --> custom sccript to persist entity models, acl model, access token model or another kind of model
+  models/                   --> store all components which are related with data bases, SOA conexions, rest/soap integrations, etc.
+    address-entity.js       --> address-entity entity
+    address-entity.json     --> address-entity scheme
+    order-entity.js         --> order-entity entity
+    order-entity.json       --> order-entity scheme
+```
 
 ## License
 
