@@ -37,6 +37,10 @@
     "dataSource": "db",
     "public": false
   },
+  "PageableMapper": {
+    "dataSource": null,
+    "public": false
+  },
   "OrderMapper": {
     "dataSource": null,
     "public": false
