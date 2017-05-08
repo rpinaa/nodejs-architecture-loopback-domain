@@ -9,6 +9,9 @@ NodeJS 7 non-blocking I/O Architecture, using Loopback and Domain layer
 
 - JavaScript 6
 - Loopback 3.x
+- Loopback Boot 2.x
+- Loopback Explorer 4.x
+- Loopback Mysql 4.x
 - Async 2.x
 
 ## Contribution guide
@@ -79,6 +82,7 @@ server/                     --> store components which are related with the data
   datasources.json          --> default configuration file for loopback data sources
   middleware.json           --> default configuration file for loopback middleware flow
   model-config.json         --> default configuration file for all loopback models, include common and server
+package.json                --> main NPM file
 ```
 
 ## License
