@@ -19,6 +19,7 @@
     "loopback": "^3.4.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^4.2.0",
+    "loopback-component-limit-max": "^1.1.0",
     "loopback-connector-mysql": "^4.0.0",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0",
