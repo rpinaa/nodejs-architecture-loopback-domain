@@ -1,3 +1,8 @@
 {
-  "loopback-component-explorer": null
+  "loopback-component-explorer": null,
+  "loopback-component-limit-max": {
+    "enabled": true,
+    "limit": 50,
+    "models": true
+  }
 }

@@ -1,5 +1,10 @@
 {
   "loopback-component-explorer": {
     "mountPath": "/explorer"
+  },
+  "loopback-component-limit-max": {
+    "enabled": true,
+    "limit": 50,
+    "models": true
   }
 }
