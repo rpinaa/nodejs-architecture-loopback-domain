@@ -143,7 +143,7 @@ module.exports = Order => {
     async.waterfall([
       (callback) => {
 
-        const query = filters && JSON.parse(filters) || {};
+        const query = Order.app.models.PageableMapper.map(filters && JSON.parse(filters) || {});
 
         OrderEntity.find(query, callback);
       },
