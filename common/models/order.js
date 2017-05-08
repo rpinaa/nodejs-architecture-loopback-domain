@@ -145,7 +145,6 @@ module.exports = Order => {
 
         const query = filters && JSON.parse(filters) || {};
 
-        Object.assign(query, {limit: 10});
         OrderEntity.find(query, callback);
       },
       (sourceOrderEntities, callback) => {

@@ -11,6 +11,7 @@ NodeJS 7 non-blocking I/O Architecture, using Loopback and Domain layer
 - Loopback 3.x
 - Loopback Boot 2.x
 - Loopback Explorer 4.x
+- Loopback Limit Max 1.x
 - Loopback Mysql 4.x
 - Async 2.x
 
