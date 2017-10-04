@@ -9,7 +9,9 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node .",
-    "posttest": "npm run lint && nsp check"
+    "posttest": "npm run lint && nsp check",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "async": "^2.3.0",
@@ -23,7 +25,8 @@
     "loopback-connector-mysql": "^4.0.0",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0",
-    "two-way-object-mapper": "^1.1.0"
+    "two-way-object-mapper": "^1.1.0",
+    "snyk": "^1.42.3"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
@@ -35,5 +38,6 @@
     "url": "https://github.com/rpinaa/nodejs-architecture-loopback-domain.git"
   },
   "author": "Ricardo Pina Arellano",
-  "license": "MIT"
+  "license": "MIT",
+  "snyk": true
 }
