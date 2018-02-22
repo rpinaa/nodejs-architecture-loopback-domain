@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.10.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:superagent:20170807':
@@ -57,4 +57,8 @@ ignore:
     - loopback-connector-mysql > loopback-connector > strong-globalize > g11n-pipeline > swagger-client > superagent:
         reason: None given
         expires: '2017-11-03T14:14:26.858Z'
+  'npm:swagger-ui:20171031':
+    - loopback-component-explorer > swagger-ui:
+        reason: None given
+        expires: '2018-03-24T22:18:05.920Z'
 patch: {}

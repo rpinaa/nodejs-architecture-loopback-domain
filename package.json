@@ -19,14 +19,14 @@
     "cors": "^2.5.2",
     "helmet": "^3.8.2",
     "loopback": "^3.4.0",
-    "loopback-boot": "^2.6.5",
-    "loopback-component-explorer": "^4.2.0",
+    "loopback-boot": "^3.0.0",
+    "loopback-component-explorer": "^5.3.0",
     "loopback-component-limit-max": "^1.1.0",
     "loopback-connector-mysql": "^4.0.0",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0",
     "two-way-object-mapper": "^1.1.0",
-    "snyk": "^1.42.3"
+    "snyk": "^1.69.9"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
