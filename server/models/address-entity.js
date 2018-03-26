@@ -1,5 +1,1 @@
-'use strict';
-
-module.exports = AddressEntity => {
-
-};
+module.exports = AddressEntity => {};

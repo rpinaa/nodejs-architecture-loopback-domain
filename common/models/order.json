@@ -59,7 +59,109 @@
     }
   },
   "acls": [],
-  "methods": {},
+  "methods": {
+    "createOrder": {
+      "accepts": [
+        {
+          "arg": "order",
+          "type": "Order",
+          "required": true,
+          "http": {
+            "source": "body"
+          },
+          "description": "Model instance data"
+        }
+      ],
+      "returns": {
+        "arg": "order",
+        "type": "Order",
+        "root": true
+      },
+      "description": "Create a new instance of the model and persist it into the data source.",
+      "http": {
+        "path": "/",
+        "verb": "post"
+      }
+    },
+    "updateOrder": {
+      "accepts": [
+        {
+          "arg": "order",
+          "type": "Order",
+          "required": true,
+          "http": {
+            "source": "body"
+          },
+          "description": "Model instance data"
+        }
+      ],
+      "returns": {
+        "arg": "order",
+        "type": "Order",
+        "root": true
+      },
+      "description": "Update attributes for a model instance and persist it into the data source.",
+      "http": {
+        "path": "/",
+        "verb": "put"
+      }
+    },
+    "findOrderById": {
+      "accepts": [
+        {
+          "arg": "orderId",
+          "type": "number",
+          "required": true,
+          "http": {
+            "source": "path"
+          },
+          "description": "Order Id"
+        },
+        {
+          "arg": "filter",
+          "type": "string",
+          "required": false,
+          "http": {
+            "source": "query"
+          },
+          "description": "Filter defining fields and include - must be a JSON-encoded string ({'something':'value'})"
+        }
+      ],
+      "returns": {
+        "arg": "order",
+        "type": "Order",
+        "root": true
+      },
+      "description": "Find a model instance by {{companyId}} from the data source.",
+      "http": {
+        "path": "/:orderId",
+        "verb": "get"
+      }
+    },
+    "findOrders": {
+      "accepts": [
+        {
+          "arg": "filter",
+          "type": "string",
+          "required": false,
+          "http": {
+            "source": "query"
+          },
+          "description": "Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({\"something\":\"value\"})"
+        }
+      ],
+      "returns": {
+        "arg": "orders",
+        "type": "[Order]",
+        "root": true
+      },
+      "description": "Find all instances of the model matched by filter from the data source.",
+      "http": {
+        "path": "/",
+        "verb": "get"
+      }
+    }
+  },
   "remoting": {
     "normalizeHttpPath": true
   }

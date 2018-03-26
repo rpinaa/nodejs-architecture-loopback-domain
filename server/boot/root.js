@@ -1,8 +1,8 @@
-'use strict';
+module.exports = server => {
+  const router = server.loopback.Router();
 
-module.exports = function(server) {
-  // Install a `/` route that returns server status
-  var router = server.loopback.Router();
-  router.get('/', server.loopback.status());
+  router.get(['/', '/_ah/health'],
+    (request, response) => response.send({'status': 'UP'}));
+
   server.use(router);
 };
