@@ -3,9 +3,9 @@
     "host": "localhost",
     "port": 3306,
     "url": "",
-    "database": "ordersdb",
+    "database": "test",
     "password": "",
-    "name": "mysql",
+    "name": "db",
     "user": "root",
     "connector": "mysql"
   },
