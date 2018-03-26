@@ -4,11 +4,13 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
-      "./models"
+      "./models",
+      "./models/common"
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -29,14 +31,6 @@
     "dataSource": "db",
     "public": false
   },
-  "AddressEntity": {
-    "dataSource": "db",
-    "public": false
-  },
-  "OrderEntity": {
-    "dataSource": "db",
-    "public": false
-  },
   "PageableMapper": {
     "dataSource": null,
     "public": false
@@ -45,9 +39,32 @@
     "dataSource": null,
     "public": false
   },
+  "AbstractEntity": {
+    "dataSource": null,
+    "public": false
+  },
+  "AddressEntity": {
+    "dataSource": "db",
+    "public": false
+  },
+  "OrderEntity": {
+    "dataSource": "db",
+    "public": false
+  },
   "Order": {
     "dataSource": "transient",
-    "public": true
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "createOrder": true,
+          "findOrderById": true,
+          "updateOrder": true,
+          "findOrders": true
+        }
+      }
+    }
   },
   "Address": {
     "dataSource": "transient",
