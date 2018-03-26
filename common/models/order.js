@@ -1,12 +1,11 @@
-'use strict';
+const OrderMapper = require('loopback').getModel('OrderMapper');
+const PageableMapper = require('loopback').getModel('PageableMapper');
 
-const async = require('async');
-
-const AddressEntity = require('loopback').getModel('AddressEntity');
 const OrderEntity = require('loopback').getModel('OrderEntity');
+const AddressEntity = require('loopback').getModel('AddressEntity');
+const AbstractEntity = require('loopback').getModel('AbstractEntity');
 
 module.exports = Order => {
-
   /*
    * Business constraints
    * */
@@ -23,169 +22,71 @@ module.exports = Order => {
    * */
 
   Order.createOrder = (order, cb) => {
+    const sourceOrder = new Order(OrderMapper.map(order));
 
-    const sourceOrder = new Order(Order.app.models.OrderMapper.map(order));
+    return sourceOrder
+      .isValid(valid => new Promise((solve, reject) => valid ? solve() : reject(sourceOrder.errors)))
+      .then(() => OrderEntity.exists(sourceOrder.id))
+      .then(OrderEntity.throwErrorIfNotExist)
+      .then(() => OrderEntity.beginTransaction('READ COMMITTED', AbstractEntity.getTx))
+      .then(async transaction => {
+        const addressEntity = new AddressEntity(sourceOrder.address);
+        const orderEntity = new OrderEntity(sourceOrder);
 
-    async.waterfall([
-      (callback) => {
+        const ctxAddressEntity = await AddressEntity.create(addressEntity, {transaction});
 
-        sourceOrder.isValid((valid) => valid ? callback() : callback(sourceOrder.errors));
-      },
-      (callback) => {
+        orderEntity.address(ctxAddressEntity);
 
-        OrderEntity.exists(sourceOrder.id, (err, exists) => {
-          err ? callback(err) : exists ? callback('ERROR-4001') : callback();
-        });
-      },
-      (callback) => {
+        const ctxOrderEntity = await OrderEntity.create(orderEntity, {transaction});
+        const order = new Order(ctxOrderEntity);
 
-        OrderEntity.beginTransaction('READ COMMITTED', callback);
-      },
-      (tx, callback) => {
+        order.address = ctxAddressEntity;
 
-        const targetAddressEntity = new AddressEntity(sourceOrder.address);
-
-        AddressEntity.create(targetAddressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
-          err ? callback(err) : callback(null, sourceAddressEntity, tx);
-        });
-      },
-      (sourceAddressEntity, tx, callback) => {
-
-        const targetOrderEntity = new OrderEntity(sourceOrder);
-
-        targetOrderEntity.address(sourceAddressEntity);
-
-        OrderEntity.create(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
-          err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
-        });
-      },
-      (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
-
-        tx.commit((err) => {
-
-          const order = new Order(sourceOrderEntity);
-
-          order.address = sourceAddressEntity;
-
-          callback(err, Order.app.models.OrderMapper.reverseMap(order));
-        });
-      }
-    ], cb);
+        return OrderMapper.reverseMap(order);
+      })
+      .catch(cb);
   };
 
   Order.updateOrder = (order, cb) => {
+    const sourceOrder = new Order(OrderMapper.map(order));
 
-    const sourceOrder = new Order(Order.app.models.OrderMapper.map(order));
-
-    async.waterfall([
-      (callback) => {
-
-        sourceOrder.isValid((valid) => valid ? callback() : callback(sourceOrder.errors));
-      },
-      (callback) => {
-
-        OrderEntity.findById(sourceOrder.id, {include: 'address'}, (err, sourceOrderEntity) => {
-          err ? callback(err) : sourceOrderEntity ? callback(null, sourceOrderEntity) : callback('ERROR-4002');
-        });
-      },
-      (sourceOrderEntity, callback) => {
-
-        OrderEntity.beginTransaction('READ COMMITTED', (err, tx) => err ? callback(err) : callback(null, sourceOrderEntity, tx));
-      },
-      (sourceOrderEntity, tx, callback) => {
+    return sourceOrder
+      .isValid(valid => new Promise((solve, reject) => valid ? solve() : reject(sourceOrder.errors)))
+      .then(() => OrderEntity.exists(sourceOrder.id))
+      .then(OrderEntity.throwErrorIfNotExist)
+      .then(() => OrderEntity.beginTransaction('READ COMMITTED', AbstractEntity.getTx))
+      .then(async transaction => {
+        const ctxOrderEntity = await OrderEntity.findById(sourceOrder.id, {include: 'address'});
 
         const addressEntity = new AddressEntity(sourceOrder.address);
 
-        sourceOrderEntity.address.update(addressEntity, {transaction: tx}, (err, sourceAddressEntity) => {
-          err ? callback(err) : callback(null, sourceAddressEntity, sourceOrderEntity, tx);
-        });
-      },
-      (sourceAddressEntity, sourceOrderEntity, tx, callback) => {
+        const ctxAddressEntity = await ctxOrderEntity.address.update(addressEntity, {transaction});
 
-        const targetOrderEntity = new OrderEntity(sourceOrder);
+        const orderEntity = new OrderEntity(sourceOrder);
 
-        sourceOrderEntity.updateAttributes(targetOrderEntity, {transaction: tx}, (err, sourceOrderEntity) => {
-          err ? callback(err) : callback(null, sourceOrderEntity, sourceAddressEntity, tx);
-        });
-      },
-      (sourceOrderEntity, sourceAddressEntity, tx, callback) => {
+        await ctxOrderEntity.updateAttributes(orderEntity, {transaction});
 
-        tx.commit((err) => {
+        const order = new Order(ctxOrderEntity);
 
-          const order = new Order(sourceOrderEntity);
+        order.address = ctxAddressEntity;
 
-          order.address = sourceAddressEntity;
+        return OrderMapper.reverseMap(order);
 
-          callback(err, Order.app.models.OrderMapper.reverseMap(order));
-        });
-      }
-    ], cb);
+      })
+      .catch(cb);
   };
 
-  Order.findOrderById = (idOrder, cb) => {
+  Order.findOrderById = (idOrder, cb) =>
+    OrderEntity
+      .findById(idOrder, {})
+      .then(OrderEntity.throwErrorIfNone)
+      .then(async ctxOrderEntity => OrderMapper.reverseMap(ctxOrderEntity))
+      .catch(cb);
 
-    async.waterfall([
-      (callback) => {
-
-        OrderEntity.findById(idOrder, {}, callback);
-      },
-      (sourceOrderEntity, callback) => {
-
-        const order = new Order(sourceOrderEntity);
-
-        callback(null, Order.app.models.OrderMapper.reverseMap(order));
-      }
-    ], cb);
-  };
-
-  Order.findOrders = (filters, cb) => {
-
-    async.waterfall([
-      (callback) => {
-
-        const query = Order.app.models.PageableMapper.map(filters && JSON.parse(filters) || {});
-
-        OrderEntity.find(query, callback);
-      },
-      (sourceOrderEntities, callback) => {
-
-        const orders = sourceOrderEntities.map(orderEntity => new Order(orderEntity));
-
-        callback(null, Order.app.models.OrderMapper.reverseMapList(orders));
-      }
-    ], cb);
-  };
-
-  /*
-   * Remote API methods
-   * */
-
-  Order.remoteMethod('createOrder', {
-    accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
-    returns: {arg: 'order', type: 'Order', root: true},
-    http: {path: '/', verb: 'post'}
-  });
-
-  Order.remoteMethod('updateOrder', {
-    accepts: {arg: 'order', type: 'Order', required: true, http: {source: 'body'}},
-    returns: {arg: 'order', type: 'Order', root: true},
-    http: {path: '/', verb: 'put'}
-  });
-
-  Order.remoteMethod('findOrderById', {
-    accepts: {arg: 'idOrder', type: 'string', required: true, http: {source: 'path'}},
-    returns: {arg: 'order', type: 'Order', root: true},
-    http: {path: '/:idOrder', verb: 'get'}
-  });
-
-  Order.remoteMethod('findOrders', {
-    accepts: {arg: 'filter', type: 'string', required: false, http: {source: 'query'}},
-    returns: {arg: 'orders', type: ['Order'], root: true},
-    http: {path: '/', verb: 'get'}
-  });
-
-  Order.disableRemoteMethodByName('prototype.__create__orderAddress');
-  Order.disableRemoteMethodByName('prototype.__update__orderAddress');
-  Order.disableRemoteMethodByName('prototype.__get__orderAddress');
-  Order.disableRemoteMethodByName('prototype.__destroy__orderAddress');
+  Order.findOrders = (filters, cb) =>
+    OrderEntity
+      .find(PageableMapper.map(filters && JSON.parse(filters) || {}))
+      .then(async ctxOrdersEntity => ctxOrdersEntity.map(orderEntity => new Order(orderEntity)))
+      .then(async ctxOrders => OrderMapper.reverseMapList(ctxOrders))
+      .catch(cb);
 };
