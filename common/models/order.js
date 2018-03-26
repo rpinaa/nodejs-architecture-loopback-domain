@@ -71,7 +71,6 @@ module.exports = Order => {
         order.address = ctxAddressEntity;
 
         return OrderMapper.reverseMap(order);
-
       })
       .catch(cb);
   };
