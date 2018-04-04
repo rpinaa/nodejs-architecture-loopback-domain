@@ -1,1 +1,2 @@
-module.exports = app => app.dataSources.db.automigrate();
+module.exports = app => {}
+//app.dataSources.mysql.automigrate();
