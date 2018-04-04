@@ -1,0 +1,83 @@
+options:
+  docker: true
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Build
+          image: node:9.2.0-alpine
+          caches:
+            - node
+          script:
+            - npm i
+            - npm run posttest
+            - npm test
+      - step:
+          name: Deploy
+          image: python:2.7
+          script:
+            - export CLOUDSDK_CORE_DISABLE_PROMPTS=1
+            - SDK_VERSION=161.0.0
+            - SDK_FILENAME=google-cloud-sdk-${SDK_VERSION}-linux-x86_64.tar.gz
+            - curl -O -J https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${SDK_FILENAME}
+            - tar -zxvf ${SDK_FILENAME} --directory ${HOME}
+            - export PATH=${PATH}:${HOME}/google-cloud-sdk/bin
+            - GAE_PYTHONPATH=${HOME}/google_appengine
+            - export PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH}
+            - python fetch_gae_sdk.py $(dirname "${GAE_PYTHONPATH}")
+            - echo "${PYTHONPATH}" && ls ${GAE_PYTHONPATH}
+            - echo ${GOOGLE_CLIENT_SECRET} > client-secret.json
+            - echo "key = '${GOOGLE_API_KEY}'" > api_key.py
+            - gcloud components install kubectl -q
+
+            - gcloud auth activate-service-account --key-file client-secret.json
+
+            - export IMAGE_NAME=gcr.io/$GOOGLE_PROJECT_NAME/$APP_NAME
+            - docker build . -t $IMAGE_NAME:$BITBUCKET_COMMIT
+            - gcloud docker -- push $IMAGE_NAME:$BITBUCKET_COMMIT
+            - docker tag $IMAGE_NAME:$BITBUCKET_COMMIT $IMAGE_NAME:latest
+            - gcloud docker -- push $IMAGE_NAME:latest
+
+            - gcloud config set project $GOOGLE_PROJECT_NAME
+            - gcloud config set container/use_client_certificate True
+            - kubectl config set-cluster $KUBERNETES_CLUSTER_DEV_NAME --server=$KUBERNETES_CLUSTER_DEV_HOST
+            - kubectl config set-credentials gft --username=$KUBERNETES_USERNAME --password=$KUBERNETES_PASSWORD
+            - kubectl config set-context development --cluster=$KUBERNETES_CLUSTER_DEV_NAME --user=gft
+            - kubectl config use-context development
+
+            - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_DEV_NAME --zone=$KUBERNETES_CLUSTER_ZONE
+
+            - kubectl apply -f deployment-development.yaml --namespace=development --record
+            - kubectl set image deployment $APP_NAME $APP_NAME=$IMAGE_NAME:$BITBUCKET_COMMIT --namespace=development --record
+    production:
+      - step:
+          name: Build
+          image: node:9.2.0-alpine
+          caches:
+            - node
+          script:
+            - npm i
+            - npm run posttest
+            - npm test
+      - step:
+          name: Deploy
+          image: python:2.7
+          script:
+            - export CLOUDSDK_CORE_DISABLE_PROMPTS=1
+            - SDK_VERSION=127.0.0
+            - SDK_FILENAME=google-cloud-sdk-${SDK_VERSION}-linux-x86_64.tar.gz
+            - curl -O -J https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${SDK_FILENAME}
+            - tar -zxvf ${SDK_FILENAME} --directory ${HOME}
+            - export PATH=${PATH}:${HOME}/google-cloud-sdk/bin
+
+            - GAE_PYTHONPATH=${HOME}/google_appengine
+            - export PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH}
+            - python fetch_gae_sdk.py $(dirname "${GAE_PYTHONPATH}")
+            - echo "${PYTHONPATH}" && ls ${GAE_PYTHONPATH}
+
+            - echo ${GOOGLE_CLIENT_SECRET} > client-secret.json
+            - echo "key = '${GOOGLE_API_KEY}'" > api_key.py
+
+            - gcloud auth activate-service-account --key-file client-secret.json
+            - gcloud --quiet --verbosity=info app deploy app-production.yaml --promote

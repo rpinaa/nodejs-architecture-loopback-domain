@@ -129,6 +129,48 @@ For local environment, execute the code test approach and security vulnerabiliti
 $ NODE_ENV=local npm run posttest
 ```
 
+### Packaging
+
+Using docker environment we have:
+
+```sh
+$ docker build -t DOCKER_ORCHESTRATOR/ORCHESTRATOR_ID/DOCKER_IMAGE_NAME:DOCKER_IMAGE_TAG .
+```
+
+Only for local environment:
+
+```sh
+$ docker build -t app:local .
+```
+
+Only for cloud environment and Google Container Registry orchestrator:
+
+```sh
+$ docker build -t gcr.io/GOOGLE_PROJECT_ID/DOCKER_IMAGE_NAME:DOCKER_IMAGE_TAG .
+```
+
+### Exposing
+
+Only for local environment:
+
+```sh
+$ docker run -p 8080:8080 app
+```
+
+### Integration
+
+For Kubernetes integration we have the "deployment-development.yaml" file as a deployment descriptor. You can use kubectl to create or delete a deployment:
+
+```sh
+$ kubectl delete -f deployment.yaml --namespace=NAMESPACE_NAME
+```
+
+```sh
+$ kubectl create -f deployment.yaml --namespace=NAMESPACE_NAME
+```
+
+Check the bitbucket-pipelines to know how to apply or update several images in a Workflow of CI
+
 ### Project structure
 
 ```

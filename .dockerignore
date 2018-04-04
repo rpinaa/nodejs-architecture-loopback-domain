@@ -1,0 +1,17 @@
+.git
+.DS_Store
+.gitignore
+.editorconfig
+.eslintignore
+.eslintrc
+.yo-rc.json
+
+app.yaml
+bitbucket-pipelines.yml
+Dockerfile
+fetch_gae_sdk.py
+README.md
+
+node_modules
+env.*
+/tmp/*

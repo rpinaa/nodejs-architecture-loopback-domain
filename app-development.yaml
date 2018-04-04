@@ -1,0 +1,9 @@
+service: baas
+runtime: custom
+env: flex
+
+manual_scaling:
+  instances: 1
+
+env_variables:
+  NODE_ENV: 'development'
