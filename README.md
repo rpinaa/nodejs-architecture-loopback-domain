@@ -171,6 +171,14 @@ $ kubectl create -f deployment.yaml --namespace=NAMESPACE_NAME
 
 Check the bitbucket-pipelines to know how to apply or update several images in a Workflow of CI
 
+### Exploring
+
+Only for local environment:
+
+Go to http://localhost:3000/explorer/#/ to see the Swagger UI Explorer
+
+![alt tag](https://raw.githubusercontent.com/rpinaa/nodejs-architecture-loopback/master/swagger-api.png)
+
 ### Project structure
 
 ```
