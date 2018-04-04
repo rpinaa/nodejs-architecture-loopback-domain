@@ -8,29 +8,6 @@
       "./models/common"
     ]
   },
-  "User": {
-    "dataSource": "db",
-    "public": false
-  },
-  "AccessToken": {
-    "dataSource": "db",
-    "public": false
-  },
-  "ACL": {
-    "dataSource": "db",
-    "public": false
-  },
-  "RoleMapping": {
-    "dataSource": "db",
-    "public": false,
-    "options": {
-      "strictObjectIDCoercion": true
-    }
-  },
-  "Role": {
-    "dataSource": "db",
-    "public": false
-  },
   "PageableMapper": {
     "dataSource": null,
     "public": false
@@ -44,11 +21,11 @@
     "public": false
   },
   "AddressEntity": {
-    "dataSource": "db",
+    "dataSource": "mysql",
     "public": false
   },
   "OrderEntity": {
-    "dataSource": "db",
+    "dataSource": "mysql",
     "public": false
   },
   "Order": {
