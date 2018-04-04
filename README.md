@@ -22,28 +22,27 @@ In a real application we need enterprise components which have the necessary qua
 Order.createOrder = (order, cb) => {
     const sourceOrder = new Order(OrderMapper.map(order));
 
-    return sourceOrder
-      .isValid(valid => new Promise((solve, reject) => valid ? solve() : reject(sourceOrder.errors)))
-      .then(() => OrderEntity.exists(sourceOrder.id))
-      .then(OrderEntity.throwErrorIfNotExist)
+    return OrderEntity
+      .find({where: {name: sourceOrder.name}})
+      .then(OrderEntity.throwErrorIfExist)
       .then(() => OrderEntity.beginTransaction('READ COMMITTED', AbstractEntity.getTx))
       .then(async transaction => {
         const addressEntity = new AddressEntity(sourceOrder.address);
         const orderEntity = new OrderEntity(sourceOrder);
-
+    
         const ctxAddressEntity = await AddressEntity.create(addressEntity, {transaction});
-
+    
         orderEntity.address(ctxAddressEntity);
-
+    
         const ctxOrderEntity = await OrderEntity.create(orderEntity, {transaction});
         const order = new Order(ctxOrderEntity);
-
+    
         order.address = ctxAddressEntity;
-
+    
         return OrderMapper.reverseMap(order);
       })
       .catch(cb);
-  };
+};
 ```
 
 ## Contribution guide
@@ -135,7 +134,7 @@ $ NODE_ENV=local npm run posttest
 ```
 common/                     --> store components which are related with the business and domain rules
   models/                   --> store domain layer, mapper layer or service layer
-    order.js/               --> order service
+    order.js/               --> order RESTFul
     order.json/             --> order domain
     order-mapper.js/        --> order-mapper service
     order-mapper.json/      --> order-mapper mapper
