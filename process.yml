@@ -1,0 +1,5 @@
+apps:
+  - script   : 'server/server.js'
+    name     : 'baas'
+    exec_mode: 'cluster'
+    instances: 1
