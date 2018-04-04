@@ -3,7 +3,7 @@
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
-    "validateUpsert": false,
+    "validateUpsert": true,
     "mysql": {
       "table": "ORDER"
     }
@@ -44,7 +44,7 @@
       }
     },
     "timeZone": {
-      "type": "date",
+      "type": "string",
       "mysql": {
         "columnName": "TIMEZONE"
       }

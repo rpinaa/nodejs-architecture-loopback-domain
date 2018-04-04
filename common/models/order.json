@@ -23,7 +23,7 @@
       "type": "string"
     },
     "timeZone": {
-      "type": "date"
+      "type": "string"
     },
     "scheduled": {
       "type": "string"
