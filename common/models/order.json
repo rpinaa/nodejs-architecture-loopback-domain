@@ -110,7 +110,7 @@
       "accepts": [
         {
           "arg": "orderId",
-          "type": "number",
+          "type": "uuid",
           "required": true,
           "http": {
             "source": "path"
