@@ -3,7 +3,7 @@
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
-    "validateUpsert": false,
+    "validateUpsert": true,
     "mysql": {
       "table": "ADDRESS"
     }
