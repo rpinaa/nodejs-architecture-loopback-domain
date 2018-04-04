@@ -6,27 +6,11 @@ const AddressEntity = require('loopback').getModel('AddressEntity');
 const AbstractEntity = require('loopback').getModel('AbstractEntity');
 
 module.exports = Order => {
-  /*
-   * Business constraints
-   * */
-
-  Order.validatesLengthOf('name', {min: 3, max: 15});
-  Order.validatesLengthOf('name', {min: 3, max: 15});
-  Order.validatesFormatOf('id', {with: /^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/});
-  Order.validatesFormatOf('latitude', {with: /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/});
-  Order.validatesFormatOf('longitude', {with: /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/});
-  Order.validatesPresenceOf('timeZone', 'scheduled', 'comments', 'total', 'createdAt', 'registeredAt', 'scheduledAt', 'finishedAt');
-
-  /*
-   * Business methods
-   * */
-
   Order.createOrder = (order, cb) => {
     const sourceOrder = new Order(OrderMapper.map(order));
 
-    return sourceOrder
-      .isValid(valid => new Promise((solve, reject) => valid ? solve() : reject(sourceOrder.errors)))
-      .then(() => OrderEntity.exists(sourceOrder.id))
+    return OrderEntity
+      .exists(sourceOrder.id)
       .then(OrderEntity.throwErrorIfNotExist)
       .then(() => OrderEntity.beginTransaction('READ COMMITTED', AbstractEntity.getTx))
       .then(async transaction => {
@@ -50,9 +34,8 @@ module.exports = Order => {
   Order.updateOrder = (order, cb) => {
     const sourceOrder = new Order(OrderMapper.map(order));
 
-    return sourceOrder
-      .isValid(valid => new Promise((solve, reject) => valid ? solve() : reject(sourceOrder.errors)))
-      .then(() => OrderEntity.exists(sourceOrder.id))
+    return OrderEntity
+      .exists(sourceOrder.id)
       .then(OrderEntity.throwErrorIfNotExist)
       .then(() => OrderEntity.beginTransaction('READ COMMITTED', AbstractEntity.getTx))
       .then(async transaction => {
