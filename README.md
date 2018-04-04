@@ -177,7 +177,7 @@ Only for local environment:
 
 Go to http://localhost:3000/explorer/#/ to see the Swagger UI Explorer
 
-![alt tag](https://raw.githubusercontent.com/rpinaa/nodejs-architecture-loopback/master/swagger-api.png)
+![alt tag](https://raw.githubusercontent.com/rpinaa/nodejs-architecture-loopback-domain/master/swagger-api.png)
 
 ### Project structure
 
