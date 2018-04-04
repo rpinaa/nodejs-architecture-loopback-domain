@@ -69,6 +69,9 @@ module.exports = Order => {
     OrderEntity
       .find(PageableMapper.map(filters && JSON.parse(filters) || {}))
       .then(async ctxOrdersEntity => ctxOrdersEntity.map(orderEntity => new Order(orderEntity)))
-      .then(async ctxOrders => OrderMapper.reverseMapList(ctxOrders))
+      .then(async ctxOrders => await {
+        orders: await OrderMapper.reverseMapList(ctxOrders),
+        total: await OrderEntity.count({}),
+      })
       .catch(cb);
 };
