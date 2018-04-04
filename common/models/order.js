@@ -10,8 +10,8 @@ module.exports = Order => {
     const sourceOrder = new Order(OrderMapper.map(order));
 
     return OrderEntity
-      .exists(sourceOrder.id)
-      .then(OrderEntity.throwErrorIfNotExist)
+      .find({where: {name: sourceOrder.name}})
+      .then(OrderEntity.throwErrorIfExist)
       .then(() => OrderEntity.beginTransaction('READ COMMITTED', AbstractEntity.getTx))
       .then(async transaction => {
         const addressEntity = new AddressEntity(sourceOrder.address);
@@ -69,6 +69,9 @@ module.exports = Order => {
     OrderEntity
       .find(PageableMapper.map(filters && JSON.parse(filters) || {}))
       .then(async ctxOrdersEntity => ctxOrdersEntity.map(orderEntity => new Order(orderEntity)))
-      .then(async ctxOrders => OrderMapper.reverseMapList(ctxOrders))
+      .then(async ctxOrders => await {
+        orders: await OrderMapper.reverseMapList(ctxOrders),
+        total: await OrderEntity.count({}),
+      })
       .catch(cb);
 };

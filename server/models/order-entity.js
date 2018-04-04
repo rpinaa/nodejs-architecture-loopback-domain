@@ -7,8 +7,11 @@ module.exports = OrderEntity => {
   OrderEntity.validatesPresenceOf('timeZone', 'comments', 'total');
 
   OrderEntity.throwErrorIfNotExist = exist =>
-    new Promise((solve, reject) => exist ? reject('4001') : solve());
+    new Promise((solve, reject) => exist ? solve() : reject('4001'));
 
   OrderEntity.throwErrorIfNone = order =>
     new Promise((solve, reject) => order ? solve(order) : reject('4001'));
+
+  OrderEntity.throwErrorIfExist = orders =>
+    new Promise((solve, reject) => orders.length ? reject('4001') : solve());
 };
