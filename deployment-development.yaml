@@ -1,0 +1,49 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: baas
+  labels:
+    app: baas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: baas
+  template:
+    metadata:
+      labels:
+        app: baas
+    spec:
+      containers:
+        - name: baas
+          image: gcr.io/sound-provider-188116/baas:latest
+          imagePullPolicy: Always
+          env:
+            - name: NODE_ENV
+              value: "development"
+          ports:
+            - name: baas-port
+              containerPort: 3000
+          resources:
+            limits:
+              cpu: "250m"
+              memory: "500Mi"
+            requests:
+              cpu: "100m"
+              memory: "250Mi"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: baas-proxy
+spec:
+  selector:
+    app: baas
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: baas-port
+  type: LoadBalancer
+  loadBalancerIP: 35.225.79.127
