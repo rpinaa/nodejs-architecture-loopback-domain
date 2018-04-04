@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "start": "node .",
     "serve": "NODE_ENV=local nodemon .",
-    "posttest": "npm run lint && nsp check"
+    "posttest": "npm run lint && nsp check",
+    "test": "mocha"
   },
   "dependencies": {
     "async": "^2.6.0",
