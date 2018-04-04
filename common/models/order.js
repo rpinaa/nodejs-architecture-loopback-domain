@@ -10,8 +10,8 @@ module.exports = Order => {
     const sourceOrder = new Order(OrderMapper.map(order));
 
     return OrderEntity
-      .exists(sourceOrder.id)
-      .then(OrderEntity.throwErrorIfNotExist)
+      .find({where: {name: sourceOrder.name}})
+      .then(OrderEntity.throwErrorIfExist)
       .then(() => OrderEntity.beginTransaction('READ COMMITTED', AbstractEntity.getTx))
       .then(async transaction => {
         const addressEntity = new AddressEntity(sourceOrder.address);
