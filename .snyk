@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.10.1
+version: v1.13.5
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:superagent:20170807':
@@ -61,4 +61,98 @@ ignore:
     - loopback-component-explorer > swagger-ui:
         reason: None given
         expires: '2018-03-24T22:18:05.920Z'
-patch: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - loopback > loopback-connector-remote > loopback-datasource-juggler > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-boot > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - strong-error-handler > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-connector-mysql > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > loopback-swagger > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-boot > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-connector-mysql > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-datasource-juggler > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-datasource-juggler > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-connector-mysql > loopback-connector > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-phase > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-datasource-juggler > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > strong-remoting > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > strong-remoting > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-phase > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > strong-globalize > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > loopback-swagger > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - strong-error-handler > strong-globalize > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-connector-mysql > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > loopback-swagger > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > strong-remoting > jayson > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-connector-mysql > loopback-connector > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > strong-remoting > strong-error-handler > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > strong-remoting > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - strong-error-handler > strong-globalize > g11n-pipeline > swagger-client > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-datasource-juggler > loopback-connector > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-datasource-juggler > loopback-connector > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > loopback-datasource-juggler > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > strong-remoting > loopback-phase > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > strong-globalize > g11n-pipeline > swagger-client > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > strong-remoting > loopback-phase > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > strong-remoting > jayson > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > loopback-datasource-juggler > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > strong-remoting > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > strong-remoting > strong-error-handler > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > loopback-datasource-juggler > loopback-connector > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > loopback-datasource-juggler > loopback-connector > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > strong-remoting > loopback-phase > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback > loopback-connector-remote > strong-remoting > loopback-phase > strong-globalize > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - strong-error-handler > strong-globalize > g11n-pipeline > swagger-client > isomorphic-form-data > form-data > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
+    - loopback-component-explorer > strong-globalize > g11n-pipeline > swagger-client > isomorphic-form-data > form-data > async > lodash:
+        patched: '2019-07-05T04:45:50.521Z'
