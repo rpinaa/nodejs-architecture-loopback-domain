@@ -14,7 +14,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^3.2.2",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
     "helmet": "^3.11.0",
@@ -22,7 +22,7 @@
     "loopback-boot": "^2.27.0",
     "loopback-component-explorer": "^5.3.0",
     "loopback-component-limit-max": "^1.1.0",
-    "loopback-connector-mysql": "^5.2.0",
+    "loopback-connector-mysql": "^6.0.0",
     "serve-favicon": "^2.5.0",
     "strong-error-handler": "^2.3.1",
     "two-way-object-mapper": "^1.1.0"
