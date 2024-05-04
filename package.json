@@ -24,7 +24,7 @@
     "loopback-component-limit-max": "^1.1.0",
     "loopback-connector-mysql": "^5.2.0",
     "serve-favicon": "^2.5.0",
-    "strong-error-handler": "^2.3.1",
+    "strong-error-handler": "^3.5.0",
     "two-way-object-mapper": "^1.1.0"
   },
   "devDependencies": {
